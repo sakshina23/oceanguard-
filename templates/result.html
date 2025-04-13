@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Result - OceanGuard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        .result-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 800px;
+        }
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .result-section h3 {
+            color: #26d0ce;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        .coordinates-box {
+            background: rgba(38, 208, 206, 0.15);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 15px 0;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+        }
+        .map-link {
+            color: #26d0ce;
+            text-decoration: none;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .map-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .result-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+        }
+        .btn {
+            background: rgba(38, 208, 206, 0.2);
+            color: #fff;
+            padding: 12px 25px;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: rgba(38, 208, 206, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .result-badge {
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        .plastic-detected {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+        .no-plastic {
+            background: rgba(38, 208, 206, 0.2);
+            color: #26d0ce;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+        }
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #26d0ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .info-text {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("{{ url_for('static', filename='images/wave.png') }}");
+            background-size: 1000px 100px;
+            animation: wave 10s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+        .actions-container {
+            text-align: center;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="logo">🌊 OceanGuard</a>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/upload">Upload</a>
+                    <a href="/references">References</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="result-container">
+            <h2>Detection Result</h2>
+            
+            <div class="result-section">
+                <h3>📍 Location Details</h3>
+                <div class="info-text"><strong>Location:</strong> {{ location }}</div>
+                {% if latitude and longitude %}
+                <div class="coordinates-box">
+                    📍 <strong>Coordinates:</strong> {{ latitude }}, {{ longitude }}
+                    <a href="https://www.google.com/maps?q={{ latitude }},{{ longitude }}" 
+                       target="_blank" 
+                       class="map-link">
+                        View on Map
+                    </a>
+                </div>
+                {% endif %}
+                <div class="info-text">
+                    <strong>Detection Result:</strong> 
+                    <span class="result-badge {{ 'plastic-detected' if result == 'Plastic Present' else 'no-plastic' }}">
+                        {{ result }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <h3>📸 Analyzed Image</h3>
+                <img src="{{ url_for('static', filename='uploads/' + filename) }}" 
+                     alt="Analyzed Image" 
+                     class="result-image">
+            </div>
+
+            <div class="actions-container">
+                <form action="/analyze" method="post" style="display: inline;">
+                    <input type="hidden" name="location" value="{{ location }}">
+                    <input type="hidden" name="result" value="{{ result }}">
+                    <input type="hidden" name="filename" value="{{ filename }}">
+                    {% if latitude %}
+                    <input type="hidden" name="latitude" value="{{ latitude }}">
+                    {% endif %}
+                    {% if longitude %}
+                    <input type="hidden" name="longitude" value="{{ longitude }}">
+                    {% endif %}
+                    <button type="submit" class="btn">Get AI Analysis</button>
+                </form>
+                <a href="/upload" class="btn secondary">Analyze Another Image</a>
+                <a href="/download" class="btn secondary">Download Report</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave"></div>
+</body>
+</html>

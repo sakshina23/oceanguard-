@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image - OceanGuard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">🌊 OceanGuard</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/upload">Upload</a>
+                <a href="/download">Reports</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="upload-container">
+            <h2>Upload Image for Analysis</h2>
+            <form action="/submit" method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+                    <div class="image-preview-container">
+                        <img id="imagePreview" src="#" alt="Preview" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location Description</label>
+                    <input type="text" id="location" name="location" placeholder="Enter location description" required>
+                </div>
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+                <div id="locationStatus" class="location-status"></div>
+                <button type="submit" class="btn">Analyze Image</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="wave"></div>
+    <footer class="footer">
+        <p>© 2024 OceanGuard - Making Our Oceans Cleaner, One Image at a Time</p>
+    </footer>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationStatus = document.getElementById('locationStatus');
+            const latitudeInput = document.getElementById('latitude');
+            const longitudeInput = document.getElementById('longitude');
+
+            // Get user's location
+            if ("geolocation" in navigator) {
+                locationStatus.textContent = "📍 Getting your location...";
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        latitudeInput.value = position.coords.latitude;
+                        longitudeInput.value = position.coords.longitude;
+                        locationStatus.textContent = "✅ Location captured successfully";
+                        locationStatus.style.color = "#34c759";
+                    },
+                    function(error) {
+                        locationStatus.textContent = "⚠️ Could not get location. Please enter location manually.";
+                        locationStatus.style.color = "#ff3b30";
+                    }
+                );
+            } else {
+                locationStatus.textContent = "⚠️ Geolocation is not supported by your browser";
+                locationStatus.style.color = "#ff3b30";
+            }
+        });
+    </script>
+</body>
+</html>

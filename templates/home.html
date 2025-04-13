@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OceanGuard - Plastic Detection System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">🌊 OceanGuard</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/upload">Upload</a>
+                <a href="/references">References</a>
+                <a href="/download">Reports</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-banner">
+            <img src="{{ url_for('static', filename='images/ocean-banner.jpg') }}" alt="Ocean Banner" class="banner-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to OceanGuard</h1>
+            <p>Help protect our oceans by detecting plastic pollution through image analysis</p>
+            <a href="/upload" class="btn">Upload Image</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="features">
+            <div class="feature-card">
+                <h3>Image Analysis</h3>
+                <p>Upload images of water bodies and get instant analysis for plastic pollution detection.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Location Tracking</h3>
+                <p>Track and map plastic pollution hotspots to aid cleanup efforts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Automated Alerts</h3>
+                <p>Receive notifications when plastic pollution is detected in monitored areas.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave"></div>
+    <footer class="footer">
+        <p>© 2024 OceanGuard - Making Our Oceans Cleaner, One Image at a Time</p>
+    </footer>
+</body>
+</html>
