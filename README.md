@@ -128,7 +128,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - OpenCV
 - Flask
 - All contributors and supporters
-
+- special thanks-@Swapnil Andhale
 ## 📞 Support
 
-For support, email support@oceanguard.com or open an issue in the repository. 
+For support, open an issue in the repository. 
